@@ -74,6 +74,11 @@
                             </div>
                         @endif
                         <br> --}}
+                        @if (session('status'))
+                            <div class="alert alert-success">
+                                {{ session('status') }}
+                            </div>
+                        @endif
                         <form action=" {{ route('theme.contact.store') }} " method="POST">
                             @csrf
                             <div class="row">
@@ -98,15 +103,30 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="form-group">
-                                <label class="text-black" for="email">Email address</label>
-                                <input type="email" class="form-control" id="email" name="email"
-                                    value="{{ old('email') }}">
-                                @error('email')
-                                    <div class="alert alert-danger">{{ $message }}</div>
-                                @enderror
+                            <div class="row">
+                                <div class="col-6">
+                                    <label class="text-black" for="email">Email address</label>
+                                    <input type="email" class="form-control" id="email" name="email"
+                                        value="{{ old('email') }}">
+                                    @error('email')
+                                        <div class="alert alert-danger">{{ $message }}</div>
+                                    @enderror
+                                </div>
+                                <div class="col-6">
+                                    <label class="text-black" for="category">Category</label>
+                                    <select class="form-control" name="category_id">
+                                        <option value="">Select Category</option>
+                                        @if (count($categories) > 0)
+                                            @foreach ($categories as $category)
+                                                <option value=" {{ $category->id }} ">{{ $category->name }}</option>
+                                            @endforeach
+                                        @endif
+                                    </select>
+                                    @error('category_id')
+                                        <div class="alert alert-danger">{{ $message }}</div>
+                                    @enderror
+                                </div>
                             </div>
-
                             <div class="form-group mb-5">
                                 <label class="text-black" for="message">Message</label>
                                 <textarea name="message" class="form-control" id="message" cols="30" rows="5">{{ old('message') }}</textarea>
@@ -114,16 +134,11 @@
                                     <div class="alert alert-danger">{{ $message }}</div>
                                 @enderror
                             </div>
-
                             <button type="submit" class="btn btn-primary-hover-outline">Send Message</button>
                         </form>
-
                     </div>
-
                 </div>
-
             </div>
-
         </div>
 
 
@@ -138,3 +153,16 @@
 * Template URI: https://untree.co/
 * License: https://creativecommons.org/licenses/by/3.0/
 */ -->
+{{-- <div class="form-group">
+                                <label class="text-black" for="category">Category</label>
+                                <select class="form-control" name="category_id">
+                                    <option value="">Select Category</option>
+                                    @if (count($categories) > 0)
+                                        @foreach ($categories as $category)
+                                            <option value=" {{ $category->id }} ">{{ $category->name }}</option>
+                                        @endforeach
+                                    @endif
+                                    @error('category')
+                                        <div class="alert alert-danger">{{ $message }}</div>
+                                    @enderror
+                            </div> --}}
